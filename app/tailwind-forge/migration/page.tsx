@@ -74,10 +74,10 @@ export default function TailwindMigrationPage() {
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <Counter
-        page="tailwindforge-migration"
-        className="text-right px-10 py-2"
-      />
+      {/* Analytics Counter */}
+      <Counter page="tailwindforge-migration" className="text-right px-10 py-2" />
+
+      {/* Header */}
       <HeaderCard
         title="TailwindForge Migration"
         icon={PaintBucket}
@@ -88,7 +88,9 @@ export default function TailwindMigrationPage() {
           { label: "Migration", href: "/tailwind-forge/migration" },
         ]}
       />
+
       <div className="mt-6 space-y-6">
+        {/* Mode Selection */}
         <Card>
           <CardHeader>
             <CardTitle>Mode Selection</CardTitle>
@@ -108,6 +110,8 @@ export default function TailwindMigrationPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Migration Tool */}
         <Card>
           <CardHeader>
             <CardTitle>Tailwind v3 ➝ v4 Migration Tool</CardTitle>
@@ -115,17 +119,15 @@ export default function TailwindMigrationPage() {
           <CardContent className="space-y-4">
             <p className="text-muted-foreground">
               Paste your Tailwind v3 config and convert colors to Tailwind v4
-              @theme inline CSS.
+              <code className="px-1 py-0.5 bg-muted rounded text-xs">@theme</code> inline CSS.
             </p>
-            <div className="flex gap-2">
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-2">
               <Button onClick={handleConvert} className="cursor-pointer">
                 Convert
               </Button>
-              <Button
-                variant="ghost"
-                onClick={loadSampleConfig}
-                className="cursor-pointer"
-              >
+              <Button variant="ghost" onClick={loadSampleConfig} className="cursor-pointer">
                 Load Sample
               </Button>
               <Button
@@ -155,6 +157,8 @@ export default function TailwindMigrationPage() {
                 Reset
               </Button>
             </div>
+
+            {/* Input / Output Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
                 <h3 className="text-md font-semibold mb-2">Input Config</h3>
@@ -167,9 +171,7 @@ export default function TailwindMigrationPage() {
                 />
               </div>
               <div>
-                <h3 className="text-md font-semibold mb-2">
-                  Tailwind v4 Theme Output
-                </h3>
+                <h3 className="text-md font-semibold mb-2">Tailwind v4 Theme Output</h3>
                 <Textarea
                   className="min-h-[400px] font-mono text-sm"
                   value={output}
@@ -180,18 +182,12 @@ export default function TailwindMigrationPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Frequently Asked Questions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FAQCard
-              faqs={tailwindForgeFAQs.filter((faq) =>
-                faq.id.startsWith("migration")
-              )}
-            />
-          </CardContent>
-        </Card>
+
+        {/* FAQ Section */}
+        <FAQCard
+          title="Migration Mode FAQs"
+          faqs={tailwindForgeFAQs.filter((faq) => faq.id.startsWith("migration"))}
+        />
       </div>
     </div>
   );

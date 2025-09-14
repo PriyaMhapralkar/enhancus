@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { FAQCardProps } from "@/types/types";
 
 export const FAQCard = ({
-  title = "Frequently Asked Questions",
+  title,
   faqs,
   icon: Icon,
   defaultOpenIndex = -1,
@@ -22,7 +22,7 @@ export const FAQCard = ({
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           {Icon && <Icon className="h-5 w-5" />}
-          {title}
+          {title || "Frequently Asked Questions"}
         </CardTitle>
       </CardHeader>
       <CardContent>

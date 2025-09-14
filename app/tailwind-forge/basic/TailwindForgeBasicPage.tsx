@@ -118,7 +118,12 @@ export default function TailwindForgeBasicPage() {
             <ExportCard />
 
             {/* FAQ */}
-            <FAQCard faqs={tailwindForgeFAQs.filter(faq => faq.id.startsWith("basic"))} />
+            {/* FAQ Section */}
+<FAQCard
+  title="Basic Mode FAQs"
+  faqs={tailwindForgeFAQs.filter((faq) => faq.id.startsWith("basic"))}
+/>
+
           </div>
         </div>
       </div>

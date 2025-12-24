@@ -16,11 +16,18 @@ export default function TailwindMigrationPage() {
   const [inputConfig, setInputConfig] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleConvert = () => {
-    const converted = generateFromNestedColors(inputConfig);
-    setOutput(converted);
-    setCopied(false);
+    if (!inputConfig.trim()) return;
+    setLoading(true);
+    try {
+      const converted = generateFromNestedColors(inputConfig);
+      setOutput(converted);
+      setCopied(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const loadSampleConfig = () => {
@@ -104,7 +111,7 @@ export default function TailwindMigrationPage() {
               </Link>
               <Link href="/tailwind-forge/advanced">
                 <Button variant="default" className="w-full cursor-pointer">
-                  <span className="mr-2">🛠</span> Go to Advanced Mode
+                  <span className="mr-2">⚙️</span> Go to Advanced Mode
                 </Button>
               </Link>
             </div>
@@ -118,14 +125,19 @@ export default function TailwindMigrationPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-muted-foreground">
-              Paste your Tailwind v3 config and convert colors to Tailwind v4
-              <code className="px-1 py-0.5 bg-muted rounded text-xs">@theme</code> inline CSS.
+              Paste your Tailwind v3 config and convert colors to Tailwind v4{" "}
+              <code className="bg-muted px-1 rounded">@theme</code> inline CSS.
             </p>
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-2">
-              <Button onClick={handleConvert} className="cursor-pointer">
-                Convert
+              <Button
+                onClick={handleConvert}
+                className="cursor-pointer"
+                disabled={!inputConfig.trim() || loading}
+                aria-disabled={!inputConfig.trim() || loading}
+              >
+                {loading ? "Converting..." : "Convert"}
               </Button>
               <Button variant="ghost" onClick={loadSampleConfig} className="cursor-pointer">
                 Load Sample
@@ -158,13 +170,13 @@ export default function TailwindMigrationPage() {
               </Button>
             </div>
 
-            {/* Input / Output Grid */}
+            {/* Input / Output Editors */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
                 <h3 className="text-md font-semibold mb-2">Input Config</h3>
                 <Textarea
                   spellCheck={false}
-                  className="min-h-[400px] font-mono text-sm"
+                  className="min-h-[400px] font-mono text-sm resize-y"
                   placeholder="Paste tailwind.config.js content here..."
                   value={inputConfig}
                   onChange={(e) => setInputConfig(e.target.value)}
@@ -173,7 +185,7 @@ export default function TailwindMigrationPage() {
               <div>
                 <h3 className="text-md font-semibold mb-2">Tailwind v4 Theme Output</h3>
                 <Textarea
-                  className="min-h-[400px] font-mono text-sm"
+                  className="min-h-[400px] font-mono text-sm resize-y"
                   value={output}
                   readOnly
                   placeholder="Converted CSS will appear here..."
@@ -184,10 +196,18 @@ export default function TailwindMigrationPage() {
         </Card>
 
         {/* FAQ Section */}
-        <FAQCard
-          title="Migration Mode FAQs"
-          faqs={tailwindForgeFAQs.filter((faq) => faq.id.startsWith("migration"))}
-        />
+        <Card>
+          <CardHeader>
+            <CardTitle>Frequently Asked Questions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <FAQCard
+              faqs={tailwindForgeFAQs.filter((faq) =>
+                faq.id.startsWith("migration")
+              )}
+            />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
